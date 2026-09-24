@@ -1,0 +1,219 @@
+import { Room } from '../types/room';
+import { Booking } from '../types/booking';
+
+function getTodayISO(): string {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function getTomorrowISO(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+export const SEED_ROOMS: Room[] = [
+  {
+    id: 'room-1',
+    name: 'Turing Computer Lab',
+    building: 'Engineering Block A',
+    floor: 2,
+    roomNumber: 'A-204',
+    type: 'COMPUTER_LAB',
+    capacity: 24,
+    facilities: ['COMPUTER', 'WIFI', 'PROJECTOR', 'AIR_CONDITIONING', 'POWER_OUTLET'],
+    image: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80',
+    description: 'High-performance workstation lab equipped with dual-boot Linux/Windows machines, gigabit ethernet, and 4K projection for collaborative software and engineering projects.',
+    available: true,
+    openingTime: '08:00',
+    closingTime: '18:00',
+  },
+  {
+    id: 'room-2',
+    name: 'Curie Molecular Science Lab',
+    building: 'Science Center B',
+    floor: 3,
+    roomNumber: 'B-310',
+    type: 'SCIENCE_LAB',
+    capacity: 16,
+    facilities: ['WIFI', 'PROJECTOR', 'AIR_CONDITIONING', 'POWER_OUTLET', 'WHITEBOARD'],
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80',
+    description: 'Advanced chemistry and molecular analysis laboratory equipped with fume hoods, precision analytical balances, and digital microscope monitors.',
+    available: true,
+    openingTime: '08:00',
+    closingTime: '17:00',
+  },
+  {
+    id: 'room-3',
+    name: 'Newton Quiet Study Room',
+    building: 'Main Library',
+    floor: 1,
+    roomNumber: 'LIB-102',
+    type: 'STUDY_ROOM',
+    capacity: 4,
+    facilities: ['WIFI', 'POWER_OUTLET', 'WHITEBOARD', 'AIR_CONDITIONING'],
+    image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80',
+    description: 'Sound-dampened quiet study room ideal for focused individual research or intensive pair study sessions.',
+    available: true,
+    openingTime: '08:00',
+    closingTime: '20:00',
+  },
+  {
+    id: 'room-4',
+    name: 'Ada Lovelace Collaboration Pod',
+    building: 'Innovation Hub',
+    floor: 2,
+    roomNumber: 'HUB-215',
+    type: 'GROUP_ROOM',
+    capacity: 8,
+    facilities: ['WIFI', 'WHITEBOARD', 'PROJECTOR', 'POWER_OUTLET', 'AIR_CONDITIONING'],
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+    description: 'Dynamic group workspace featuring interactive wall-mounted smartboards, modular rolling tables, and video conferencing hardware.',
+    available: true,
+    openingTime: '08:00',
+    closingTime: '18:00',
+  },
+  {
+    id: 'room-5',
+    name: 'Hopper AI & Data Science Suite',
+    building: 'Engineering Block A',
+    floor: 4,
+    roomNumber: 'A-401',
+    type: 'COMPUTER_LAB',
+    capacity: 20,
+    facilities: ['COMPUTER', 'WIFI', 'PROJECTOR', 'AIR_CONDITIONING', 'POWER_OUTLET'],
+    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+    description: 'Specialized lab featuring high-end GPU workstations configured with TensorFlow, PyTorch, and CUDA drivers for deep learning and robotics simulations.',
+    available: true,
+    openingTime: '08:00',
+    closingTime: '18:00',
+  },
+  {
+    id: 'room-6',
+    name: 'Tesla Physics Research Lab',
+    building: 'Science Center B',
+    floor: 1,
+    roomNumber: 'B-108',
+    type: 'SCIENCE_LAB',
+    capacity: 12,
+    facilities: ['WIFI', 'POWER_OUTLET', 'AIR_CONDITIONING', 'WHITEBOARD'],
+    image: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=800&q=80',
+    description: 'Dedicated optics and electromagnetism experimental lab with laser calibration benches and digital oscilloscopes.',
+    available: false,
+    openingTime: '09:00',
+    closingTime: '17:00',
+  },
+  {
+    id: 'room-7',
+    name: 'Socrates Seminar Room',
+    building: 'Humanities Hall',
+    floor: 2,
+    roomNumber: 'H-202',
+    type: 'GROUP_ROOM',
+    capacity: 15,
+    facilities: ['WIFI', 'PROJECTOR', 'WHITEBOARD', 'AIR_CONDITIONING', 'POWER_OUTLET'],
+    image: 'https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=800&q=80',
+    description: 'Round-table seminar setup engineered for academic defenses, thesis presentations, and department club meetings.',
+    available: true,
+    openingTime: '08:00',
+    closingTime: '18:00',
+  },
+  {
+    id: 'room-8',
+    name: 'Euclid Silent Study Booth',
+    building: 'Main Library',
+    floor: 3,
+    roomNumber: 'LIB-305',
+    type: 'STUDY_ROOM',
+    capacity: 2,
+    facilities: ['WIFI', 'POWER_OUTLET', 'AIR_CONDITIONING'],
+    image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=800&q=80',
+    description: 'Compact acoustic booth for uninterrupted reading, writing, and online proctored examinations.',
+    available: true,
+    openingTime: '08:00',
+    closingTime: '20:00',
+  },
+];
+
+export function getSeedBookings(): Booking[] {
+  const todayISO = getTodayISO();
+  const tomorrowISO = getTomorrowISO();
+
+  return [
+    {
+      id: 'BK-9021',
+      roomId: 'room-1',
+      roomName: 'Turing Computer Lab',
+      roomType: 'COMPUTER_LAB',
+      building: 'Engineering Block A',
+      floor: 2,
+      roomNumber: 'A-204',
+      userId: 'student-101',
+      date: todayISO,
+      startTime: '09:00',
+      endTime: '10:00',
+      slots: ['09:00 - 10:00'],
+      status: 'CONFIRMED',
+      purpose: 'Senior Capstone Machine Learning Training',
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+    },
+    {
+      id: 'BK-9022',
+      roomId: 'room-1',
+      roomName: 'Turing Computer Lab',
+      roomType: 'COMPUTER_LAB',
+      building: 'Engineering Block A',
+      floor: 2,
+      roomNumber: 'A-204',
+      userId: 'student-999',
+      date: todayISO,
+      startTime: '13:00',
+      endTime: '14:00',
+      slots: ['13:00 - 14:00'],
+      status: 'CONFIRMED',
+      purpose: 'Distributed Systems Study Group',
+      createdAt: new Date(Date.now() - 72000000).toISOString(),
+    },
+    {
+      id: 'BK-8510',
+      roomId: 'room-4',
+      roomName: 'Ada Lovelace Collaboration Pod',
+      roomType: 'GROUP_ROOM',
+      building: 'Innovation Hub',
+      floor: 2,
+      roomNumber: 'HUB-215',
+      userId: 'student-101',
+      date: tomorrowISO,
+      startTime: '10:00',
+      endTime: '12:00',
+      slots: ['10:00 - 11:00', '11:00 - 12:00'],
+      status: 'CONFIRMED',
+      purpose: 'Mobile App Project Sprint',
+      createdAt: new Date(Date.now() - 43200000).toISOString(),
+    },
+    {
+      id: 'BK-7201',
+      roomId: 'room-3',
+      roomName: 'Newton Quiet Study Room',
+      roomType: 'STUDY_ROOM',
+      building: 'Main Library',
+      floor: 1,
+      roomNumber: 'LIB-102',
+      userId: 'student-101',
+      date: '2026-09-20',
+      startTime: '14:00',
+      endTime: '16:00',
+      slots: ['14:00 - 15:00', '15:00 - 16:00'],
+      status: 'COMPLETED',
+      purpose: 'Exam Preparation',
+      createdAt: '2026-09-18T10:00:00.000Z',
+    },
+  ];
+}
+
